@@ -27,7 +27,7 @@ PODS:
   - WindVane/WindVane (8.5.0.46-bc11)
 
 DEPENDENCIES:
-  - Flutter (from `.symlinks/flutter/ios`)
+  - Flutter (from `Flutter`)
   - flutter_alibc (from `.symlinks/plugins/flutter_alibc/ios`)
 
 SPEC REPOS:
@@ -43,7 +43,7 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   Flutter:
-    :path: ".symlinks/flutter/ios"
+    :path: Flutter
   flutter_alibc:
     :path: ".symlinks/plugins/flutter_alibc/ios"
 
@@ -59,6 +59,6 @@ SPEC CHECKSUMS:
   UTDID: c28855683c5ea2e77e597cb14609328f7d470d6e
   WindVane: 56e096abae757397ccd3accb66a959f3ffcbf949
 
-PODFILE CHECKSUM: f65a7534e3030cd63dfdaf5ac173943dc695fbe8
+PODFILE CHECKSUM: 8e679eca47255a8ca8067c4c67aab20e64cb974d
 
 COCOAPODS: 1.9.1
