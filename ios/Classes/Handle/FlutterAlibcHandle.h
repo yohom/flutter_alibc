@@ -42,10 +42,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)loginOut;
 
 
-/// 淘客登录，二次授权
+/// 淘客登录，二次授权 access_token
 /// @param call <#call description#>
 /// @param result <#result description#>
 - (void)taoKeLogin:(FlutterMethodCall *)call result:(FlutterResult)result;
+
+/// 淘客登录，二次授权 code
+/// @param call <#call description#>
+/// @param result <#result description#>
+- (void)taoKeLoginForCode:(FlutterMethodCall *)call result:(FlutterResult)result;
+
 /**
  通过url打开,包括h5，唤起手淘等
 

@@ -94,12 +94,26 @@ class _MyAppState extends State<MyApp> {
               onPressed: () async {
                 var result = await FlutterAlibc.taoKeLogin(
                     url:
-                        "https://oauth.taobao.com/authorize?response_type=token&client_id=27646673&state=1212&view=wap",
+                        "https://oauth.taobao.com/authorize?response_type=token&client_id=27875713&state=1212&view=wap",
                     openType: AlibcOpenType.AlibcOpenTypeNative,
                     isNeedCustomNativeFailMode: true,
                     nativeFailMode:
                         AlibcNativeFailMode.AlibcNativeFailModeJumpH5);
                 print("access token ${result["accessToken"]}");
+              },
+            ),
+            FlatButton(
+              child: Text("淘客登录，二次授权获取code"),
+              onPressed: () async {
+                ///redirect_uri 这里对应 开发者管理端 应用回调url  demo设置的是 http://www.163.com
+                var result = await FlutterAlibc.taoKeLoginForCode(
+                    url:
+                        "https://oauth.taobao.com/authorize?response_type=code&client_id=27824900&redirect_uri=http://www.163.com&state=1212&view=web",
+                    openType: AlibcOpenType.AlibcOpenTypeNative,
+                    isNeedCustomNativeFailMode: true,
+                    nativeFailMode:
+                        AlibcNativeFailMode.AlibcNativeFailModeJumpH5);
+                print("code ${result["code"]}");
               },
             ),
             FlatButton(

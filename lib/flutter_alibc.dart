@@ -77,6 +77,7 @@ class FlutterAlibc {
 
   ///
   /// @description: 渠道授权，获取access_token
+  /// 「对应官方文档【Client-side flow】方式」 {https://open.taobao.com/doc.htm?docId=118&docType=1}
   /// @param {type}
   /// @return:
   /// Map<String,String>
@@ -92,6 +93,36 @@ class FlutterAlibc {
   }) async {
     Map taoKe = AlibcTools.getTaokeMap(taokeParams);
     Map result = await _channel.invokeMethod("taoKeLogin", {
+      "url": url,
+      "openType": openType.index,
+      "isNeedCustomNativeFailMode": isNeedCustomNativeFailMode,
+      "nativeFailMode": nativeFailMode.index,
+      "schemeType": schemeType.index,
+      "taokeParams": taoKe,
+      "backUrl": backUrl
+    });
+
+    return result;
+  }
+
+  ///
+  /// @description: 渠道授权，获取 code 授权码
+  /// 「对应官方文档【Server-side flow】方式」 {https://open.taobao.com/doc.htm?docId=118&docType=1}
+  /// @param {type}
+  /// @return:
+  /// Map<String,String>
+  static Future<Map<dynamic, dynamic>> taoKeLoginForCode({
+    @required String url,
+    AlibcOpenType openType = AlibcOpenType.AlibcOpenTypeAuto,
+    bool isNeedCustomNativeFailMode = false,
+    AlibcNativeFailMode nativeFailMode =
+        AlibcNativeFailMode.AlibcNativeFailModeNone,
+    AlibcSchemeType schemeType = AlibcSchemeType.AlibcSchemeTaoBao,
+    TaokeParams taokeParams,
+    String backUrl,
+  }) async {
+    Map taoKe = AlibcTools.getTaokeMap(taokeParams);
+    Map result = await _channel.invokeMethod("taoKeLoginForCode", {
       "url": url,
       "openType": openType.index,
       "isNeedCustomNativeFailMode": isNeedCustomNativeFailMode,

@@ -9,6 +9,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+import android.graphics.Bitmap;
 
 import com.alibaba.baichuan.android.trade.AlibcTrade;
 import com.alibaba.baichuan.android.trade.callback.AlibcTradeCallback;
@@ -54,12 +55,15 @@ public class WebViewActivity extends Activity {
 
     }
 
-    private String getAccessToken(String url) {
+    private String getURLParam(String paramKey, String url) {
         try {
-            int startIndex = url.indexOf("access_token");
+            int startIndex = url.indexOf(paramKey);
             String subStr = url.substring(startIndex);
             String tempUrl = URLDecoder.decode(subStr, "UTF-8");
             int endIndex = tempUrl.indexOf("&");
+            if (endIndex < 0){
+                endIndex = tempUrl.length();
+            }
             subStr = tempUrl.substring(0, endIndex);
             startIndex = subStr.indexOf("=");
             subStr = subStr.substring(startIndex+1);
@@ -99,17 +103,30 @@ public class WebViewActivity extends Activity {
             }
 
             @Override
-            public void onLoadResource(WebView view, String url) {
-                super.onLoadResource(view, url);
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                Log.e("onLoadResource url : ", url);
                 //如果包含
-                if (url.contains("access_token")){
-                    String accessToken = getAccessToken(url);
+                if (url.contains("access_token=")){
+                    String accessToken = getURLParam("access_token", url);
                     if (callBack != null){
                         callBack.success(accessToken);
                         callBack = null;
                     }
                     finish();
                 }
+                if (url.contains("code=")){
+                    String code = getURLParam("code", url);
+                    if (callBack != null){
+                        callBack.success(code);
+                        callBack = null;
+                    }
+                    finish();
+                }
+            }
+            @Override
+            public void onLoadResource(WebView view, String url) {
+                super.onLoadResource(view, url);
             }
         };
 

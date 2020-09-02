@@ -24,6 +24,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAccessToken:) name:@"getAccessToken" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getCode:) name:@"getCode" object:nil];
 //    跳转到别的页面
     [self.navigationController pushViewController:self.vc animated:YES];
     // Do any additional setup after loading the view.
@@ -44,6 +45,12 @@
     NSLog(@"写入accessToken");
     self.accessToken = notification.object;
 }
+- (void)getCode:(NSNotification *) notification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    NSLog(@"写入code");
+    self.accessToken = notification.object;
+}
+
 - (void)dealloc{
     NSLog(@"dealloc执行");
     self.accessBlock(self.accessToken);

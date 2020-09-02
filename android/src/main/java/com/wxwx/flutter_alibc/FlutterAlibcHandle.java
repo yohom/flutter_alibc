@@ -159,6 +159,36 @@ public class FlutterAlibcHandle{
     }
 
     /**
+     * 淘宝授权登陆  获取code 授权码
+     *  官方说明文档 {https://open.taobao.com/doc.htm?docId=118&docType=1}
+     * @param call
+     * @param result
+     */
+    public void taoKeLoginForCode(MethodCall call, Result result){
+        HashMap<String, Object> map = (HashMap<String, Object>)call.arguments;
+        String url = call.argument("url");
+        WebViewActivity.setCallBack(new WebViewActivity.CallBack() {
+            @Override
+            public void success(String code) {
+                Map<String,String> resMap = new HashMap();
+                resMap.put("code", code);
+                result.success(resMap);
+            }
+
+            @Override
+            public void failed(String errorMsg) {
+                Map<String,String> resMap = new HashMap();
+                resMap.put("code", "");
+                result.success(resMap);
+            }
+        });
+        Intent intent = new Intent(register.activity(), WebViewActivity.class);
+        intent.putExtra("url", url);
+        intent.putExtra("arguments", map);
+        register.activity().startActivity(intent);
+    }
+
+    /**
      * 通过URL方式打开淘宝
      * @param call
      * @param result

@@ -47,7 +47,9 @@
     NSLog(@"url == %@",_webView.URL.absoluteString);
     NSString *urlStr = _webView.URL.absoluteString;
     NSRange range;
-    range = [urlStr rangeOfString:@"access_token"];
+    NSRange codeRange;
+    range = [urlStr rangeOfString:@"access_token="];
+    codeRange = [urlStr rangeOfString:@"code="];
     if (range.location != NSNotFound) {
         NSString *accessString = [urlStr substringFromIndex:range.location];
         //        截止到&
@@ -56,9 +58,29 @@
         NSString *access_token_string = [accessString substringWithRange:NSMakeRange(0,range2.location)];
         NSArray *array = [access_token_string componentsSeparatedByString:@"="];
         NSString *access_token = array[1];
-        NSLog(@"%@",access_token);
+        NSLog(@"access_token %@",access_token);
         //        跳转回去
+        if(_webView != nil){
+            [_webView removeObserver:self forKeyPath:@"URL"];
+            _webView =  nil;
+        }
         [[NSNotificationCenter defaultCenter] postNotificationName:@"getAccessToken" object:access_token];
+        [self.navigationController popViewControllerAnimated:YES];
+
+    } else if(codeRange.location != NSNotFound){
+        NSString *codeString = [urlStr substringFromIndex:codeRange.location];
+        //        截止到&
+        NSRange range2 = [codeString rangeOfString: @"&"];
+        NSString *code_string = [codeString substringWithRange:NSMakeRange(0,range2.location)];
+        NSArray *array = [code_string componentsSeparatedByString:@"="];
+        NSString *code = array[1];
+        NSLog(@"code %@",code);
+        //        跳转回去
+        if(_webView != nil){
+            [_webView removeObserver:self forKeyPath:@"URL"];
+            _webView =  nil;
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"getCode" object:code];
         [self.navigationController popViewControllerAnimated:YES];
     }else{
         NSLog(@"Not Found");
@@ -68,9 +90,10 @@
 -(void)dealloc
 {
     NSLog(@"dealloc  view");
-    [_webView removeObserver:self forKeyPath:@"URL"];
-    _webView =  nil;
-    
+    if(_webView != nil){
+        [_webView removeObserver:self forKeyPath:@"URL"];
+        _webView =  nil;
+    }
 }
 
 -(void)setOpenUrl:(NSString *)openUrl {
