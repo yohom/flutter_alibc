@@ -47,6 +47,11 @@ android {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
+    buildTypes {
+        release {
+            consumerProguardFiles "proguard-rules.pro"
+        }
+    }
 }
 
 dependencies{
